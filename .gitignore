@@ -1,0 +1,16 @@
+#Compiles directories:
+client/public/
+server/public/
+
+#Dependency directories:
+node_modules/
+
+#Runtime data:
+pids
+*.pid
+*.seed
+
+#Logs:
+logs
+*.log
+npm-debug.log
