@@ -7,7 +7,7 @@ const initialState = {
   intervalID: undefined,  //ID of the running interval, used to cancel the interval
 };
 
-let store = Redux.createStore(reducer, initialState);
+let store = Redux.createStore(reducer, initialState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 console.log('Created store:', store);
 
 export {store};
