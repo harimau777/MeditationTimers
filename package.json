@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/harimau777/MeditationTimers#readme",
   "dependencies": {
+    "babel-core": "^6.23.1",
     "babel-loader": "^6.2.5",
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-react": "^6.11.1",
