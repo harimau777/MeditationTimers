@@ -1,12 +1,12 @@
 import {Provider} from 'react-redux';
 import {store} from './store.js';
-import {CurrentTimers} from './timerList.jsx';
+import {TimerListContainer} from './timerList.jsx';
 import {TimerStatusContainer} from './timerStatus.jsx';
 import {TimerControlsContainer} from './timerControls.jsx';
 
 const App = () => (
   <div className="app">
-    <CurrentTimers />
+    <TimerListContainer />
     <TimerStatusContainer />
     <TimerControlsContainer />
   </div>

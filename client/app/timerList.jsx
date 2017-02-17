@@ -31,6 +31,6 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-const CurrentTimers = connect(mapStateToProps, mapDispatchToProps)(TimerList);
+const TimerListContainer = connect(mapStateToProps, mapDispatchToProps)(TimerList);
 
-export {CurrentTimers};
+export {TimerListContainer};
