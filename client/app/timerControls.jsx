@@ -49,11 +49,9 @@ function handleTick(timers, startTime, intervalID, dispatch) {
     //then reset the timers,
     //else move to the next timer
     if (index === timers.length - 1){
-      console.log('All timers have finished');  //Notify the user that all timers are finished
       allTimersFinishedAudio.play()
       return handleResetTimers(index, tickCount, intervalID, dispatch);
     } else {
-      console.log('Timer has finished');        //Notify the user that the current timer is finished
       timerFinishedAudio.play();
       return dispatch(nextTimer());
     }
