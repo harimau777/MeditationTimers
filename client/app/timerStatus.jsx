@@ -3,7 +3,7 @@ import {timerTicks, startTimers, stopTimers, resetTimers} from './actions.js';
 
 const TimerStatus = ({currentTimer, elapsedTime, duration}) => (
   <div className="timerStatus">
-    <p>Current Timer: {currentTimer} Current Time: {elapsedTime} of {duration * 60}</p>
+    <p>Current Timer: {currentTimer} Current Time: {elapsedTime / 60}:{elapsedTime % 60} of {duration} minute{duration !== 1 ? 's' : ''}</p>
   </div>
 );
 

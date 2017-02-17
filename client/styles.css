@@ -24,10 +24,13 @@ body {
   justify-content: space-around;
 }
 
-  /*background-color: rgba(100, 100, 100, .35);*/
+h1, p {
+  margin: 0;
+}
+
+/****** Button Styles ******/
 .button {
   display: inline-block;
-  border: 1px solid rgba(100, 100, 100, .35);
   border-radius: .5em;
   padding: 1em;
   -webkit-transition: background-color .25s; /* Safari */
@@ -38,7 +41,11 @@ body {
 
 .buttonIncrement,
 .buttonDecrement,
-.buttonRemoveTimer {
+.buttonRemoveTimer,
+.buttonAddTimer,
+.buttonStart,
+.buttonPause,
+.buttonReset {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -48,7 +55,11 @@ body {
 
 .buttonDecrement:hover,
 .buttonIncrement:hover,
-.buttonRemoveTimer:hover {
+.buttonRemoveTimer:hover,
+.buttonAddTimer:hover,
+.buttonStart:hover,
+.buttonPause:hover,
+.buttonReset:hover {
   transition: color .25s;
   color: white;
 }
@@ -78,17 +89,30 @@ body {
   background-image: url('../resources/void.png');
 }
 
-h1, p {
-  margin: 0;
+.buttonAddTimer {
+  background-image: url('../resources/plus.svg');
+  display: table;
+  margin: 0 auto;
 }
 
-  /*background-color: ;*/
+.buttonStart {
+  background-image: url('../resources/ic_play_arrow_black_24px.svg');
+}
+
+.buttonPause {
+  background-image: url('../resources/ic_pause_black_24px.svg');
+}
+
+.buttonReset {
+  background-image: url('../resources/restart.svg');
+}
+
 /****** Timer Styles: ******/
 .timer {
   border-radius: .5em;
   background: linear-gradient(transparent 5%, rgba(255, 255, 255, .35) 15%, rgba(255, 255, 255, .35) 85%, transparent 95%);
   margin: 1em;
-  padding: 2em;
+  padding: 1em;
 }
 
 .durationControl {
@@ -98,4 +122,9 @@ h1, p {
 
 .durationControl span {
   margin: .5em;
+}
+
+/****** Timer Status Styles: ******/
+.timerStatus {
+  text-align: center;
 }

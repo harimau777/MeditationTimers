@@ -6,9 +6,9 @@ const allTimersFinishedAudio = new Audio('../resources/allTimersFinished.mp3');
 
 const TimerControls = ({timers, index, tickCount, intervalID, startTimers, pauseTimers, resetTimers, handleTick}) => (
   <div className="timerControls controls">
-    <span className="button" onClick={() => startTimers(timers, intervalID)}>Start Timers</span>
-    <span className="button" onClick={() => pauseTimers(intervalID)}>Pause Timers</span>
-    <span className="button" onClick={() => resetTimers(index, tickCount, intervalID)}>Reset Timers</span>
+    <span className="button buttonStart" onClick={() => startTimers(timers, intervalID)}>Start Timers</span>
+    <span className="button buttonPause" onClick={() => pauseTimers(intervalID)}>Pause Timers</span>
+    <span className="button buttonReset" onClick={() => resetTimers(index, tickCount, intervalID)}>Reset Timers</span>
   </div>
 );
 

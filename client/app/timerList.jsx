@@ -12,7 +12,7 @@ const TimerList = ({timers, increment, decrement, addTimer, removeTimer}) => (
       ))
     }
 
-    <span className="button" onClick={addTimer}>Add Timer</span>
+    <span className="button buttonAddTimer" onClick={addTimer}>Add Timer</span>
   </div>
 );
 
