@@ -1,21 +1,25 @@
 import {connect} from 'react-redux';
-import {incrementTickCount, nextTimer, startTimers, pauseTimers, resetTimers} from './actions.js';
+import {setTickCount, nextTimer, startTimers, pauseTimers, resetTimers} from './actions.js';
+
+const timerFinishedAudio = new Audio('../resources/timerFinished.mp3');
+const allTimersFinishedAudio = new Audio('../resources/allTimersFinished.mp3');
 
 const TimerControls = ({timers, index, tickCount, intervalID, startTimers, pauseTimers, resetTimers, handleTick}) => (
-  <div className="timerControls">
-    <span className="button" onClick={() => startTimers(timers, index, tickCount, intervalID)}>Start Timers</span>
+  <div className="timerControls controls">
+    <span className="button" onClick={() => startTimers(timers, intervalID)}>Start Timers</span>
     <span className="button" onClick={() => pauseTimers(intervalID)}>Pause Timers</span>
     <span className="button" onClick={() => resetTimers(index, tickCount, intervalID)}>Reset Timers</span>
   </div>
 );
 
 //***** Refactoring to use a continuously running interval rather than chaining timers *****
-function handleStartTimers(timers, index, tickCount, intervalID, dispatch) {
+function handleStartTimers(timers, intervalID, dispatch) {
   //If the timer was not already running,
   //then start the timer
   let newIntervalID;
   if(!intervalID) {
-    newIntervalID = window.setInterval(function () {return handleTick(timers, index, tickCount, intervalID, dispatch)}, 1000);
+    const startTime = new Date().getTime();
+    newIntervalID = window.setInterval(function () {return handleTick(timers, startTime, newIntervalID, dispatch)}, 1000);
     return dispatch(startTimers(newIntervalID));
   }
 }
@@ -28,32 +32,33 @@ function handlePauseTimers(intervalID, dispatch) {
 }
 
 function handleResetTimers(index, tickCount, intervalID, dispatch) {
-  if((tickCount > 0) || (index > 0)) {  //If any of the timers have run at all
+  if((tickCount > 0) || (index > 0) || intervalID) {  //If the timer is running or if any timer has run
     window.clearInterval(intervalID);  //Stop the timmer
     return dispatch(resetTimers());
   }
 }
 
 // function handleTick() {
-function handleTick(timers, index, tickCount, intervalID, dispatch) {
+function handleTick(timers, startTime, intervalID, dispatch) {
   //If this is the last tick,
   //then handle the timer expiration,
   //else increment the tick count
-  console.log('timers', timers, 'index', index, 'tickCount', tickCount, 'intervalID', intervalID);
-  if (tickCount === timers[index] * 60){
-    console.log('In last tick');
+  const [tickCount, index] = adjustTickCount(timers, Math.round((new Date().getTime() - startTime) / 1000));
+  if (tickCount === timers[index] * 10){
     //If this is the last timer,
     //then reset the timers,
     //else move to the next timer
-    if (index === timers.length){
+    if (index === timers.length - 1){
       console.log('All timers have finished');  //Notify the user that all timers are finished
-      return resetTimers(intervalID);
+      allTimersFinishedAudio.play()
+      return handleResetTimers(index, tickCount, intervalID, dispatch);
     } else {
       console.log('Timer has finished');        //Notify the user that the current timer is finished
+      timerFinishedAudio.play();
       return dispatch(nextTimer());
     }
   } else {
-    return dispatch(incrementTickCount());
+    return dispatch(setTickCount(tickCount));
   }
 }
 
@@ -66,12 +71,28 @@ const mapStateToProps = (state) => {
   }
 }
 
+//Since the interval is running continuously, the tickCount during a given
+//timer will also include the ticks that occured during previous timers.
+//This function returns the tickCount of ticks that occured during the current
+//timer and the index of the current timer.
+const adjustTickCount = (timers, tickCount) => {  
+  const recurse = (tickCount, index) => {
+    if (tickCount <= timers[index] * 10) {
+      return [tickCount, index];
+    } else {
+      return recurse(tickCount - timers[index] * 10, index + 1);
+    }
+  }
+
+  return recurse(tickCount, 0)
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
-    startTimers: (timers, index, tickCount, intervalID) => handleStartTimers(timers, index, tickCount, intervalID, dispatch),
+    startTimers: (timers, intervalID) => handleStartTimers(timers, intervalID, dispatch),
     pauseTimers: (intervalID) => handlePauseTimers(intervalID, dispatch),
     resetTimers: (index, tickCount, intervalID) => handleResetTimers(index, tickCount, intervalID, dispatch),
-    handleTick: (timers, index, tickCount, intervalID) => handleTick(timers, index, tickCount, intervalID, dispatch)
+    handleTick: (timers, startTime, intervalID) => handleTick(timers, startTime, intervalID, dispatch)
   }
 }
 

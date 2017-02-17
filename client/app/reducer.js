@@ -8,8 +8,8 @@ function reducer(state = initialState, action) {
       return incrementTimer(state, action.index);
     case 'decrementTimer':
       return decrementTimer(state, action.index);
-    case 'incrementTickCount':
-      return incrementTickCount(state);
+    case 'setTickCount':
+      return setTickCount(state, action.tickCount);
     case 'nextTimer':
       return nextTimer(state);
     case 'startTimers':
@@ -48,14 +48,13 @@ function decrementTimer(state, index) {
   return Object.assign({}, state, {timers: timersCopy});
 }
 
-function incrementTickCount(state) {
+function setTickCount(state, tickCount) {
   return Object.assign({}, state, {
-    tickCount: state.tickCount + 1,
+    tickCount: tickCount,
   });
 }
 
 function nextTimer(state) {
-  console.log('In next timer');
   return Object.assign({}, state, {
     index: state.index + 1,
     tickCount: 0,
@@ -64,7 +63,7 @@ function nextTimer(state) {
 
 function startTimers(state, intervalID) {
   return Object.assign({}, state, {
-    intervalID: intervalID,
+    intervalID: intervalID
   });
 }
 
@@ -80,7 +79,7 @@ function resetTimers(state) {
     tickCount: 0,
     intervalID: undefined,
   });
-};
+}
 
 
 export {reducer};

@@ -4,12 +4,10 @@ import {incrementTimer, decrementTimer, addTimer, removeTimer} from './actions.j
 
 const TimerList = ({timers, increment, decrement, addTimer, removeTimer}) => (
   <div className="timerList">
-    {console.log('Timers are:', timers)}
     {
       timers.map((timer, index) => (
         <div key={index}>
-          <Timer index={index} duration={timer} increment={() => increment(index)} decrement={() => decrement(index)} />
-          <span className="button" onClick={() => removeTimer(index)}>Remove Timer</span>
+          <Timer index={index} duration={timer} increment={() => increment(index)} decrement={() => decrement(index)} remove={() => removeTimer(index)} />
         </div>
       ))
     }
@@ -33,9 +31,6 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-console.log('Connecting CurrentTimers');
 const CurrentTimers = connect(mapStateToProps, mapDispatchToProps)(TimerList);
 
 export {CurrentTimers};
-
-// export {connectTimerList, TimerList};

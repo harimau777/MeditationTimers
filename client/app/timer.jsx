@@ -1,9 +1,12 @@
-const Timer = ({index, duration, increment, decrement}) => (
+const Timer = ({index, duration, increment, decrement, remove}) => (
   <div className="timer">
     <h1>Timer {index}</h1>
-    <span>Duration: {duration} minutes</span>
-    <span className='button' onClick={increment}>Increment</span>
-    <span className='button' onClick={() => decrement(index)}>Decrement</span>
+    <div className="durationControl">
+      <span className='button buttonIncrement' onClick={increment}>Increment</span>
+      <span>{duration} minutes</span>
+      <span className='button buttonDecrement' onClick={() => decrement(index)}>Decrement</span>
+    </div>
+    <span className="button buttonRemoveTimer" onClick={() => remove(index)}>Remove Timer</span>
   </div>
 );
 
