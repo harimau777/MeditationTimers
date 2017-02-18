@@ -10,4 +10,12 @@ const Timer = ({index, duration, increment, decrement, remove}) => (
   </div>
 );
 
+Timer.propTypes = {
+  index: React.PropTypes.number,
+  duration: React.PropTypes.number,
+  increment: React.PropTypes.func,
+  decrement: React.PropTypes.func,
+  remove: React.PropTypes.func
+};
+
 export {Timer};

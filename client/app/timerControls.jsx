@@ -12,6 +12,17 @@ const TimerControls = ({timers, index, tickCount, intervalID, startTimers, pause
   </div>
 );
 
+TimerControls.propTypes = {
+  timers: React.PropTypes.array,
+  index: React.PropTypes.number,
+  tickCount: React.PropTypes.number,
+  intervalID: React.PropTypes.number,
+  startTimers: React.PropTypes.func,
+  pauseTimers: React.PropTypes.func,
+  resetTimers: React.PropTypes.func,
+  handleTick: React.PropTypes.func
+};
+
 //***** Refactoring to use a continuously running interval rather than chaining timers *****
 function handleStartTimers(timers, intervalID, dispatch) {
   //If the timer was not already running,

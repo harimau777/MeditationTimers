@@ -16,6 +16,14 @@ const TimerList = ({timers, increment, decrement, addTimer, removeTimer}) => (
   </div>
 );
 
+TimerList.propTypes = {
+  timers: React.PropTypes.array,
+  increment: React.PropTypes.func,
+  decrement: React.PropTypes.func,
+  addTimer: React.PropTypes.func,
+  removeTimer: React.PropTypes.func
+};
+
 const mapStateToProps = (state) => {
   return {
     timers: state.timers
