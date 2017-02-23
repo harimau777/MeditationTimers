@@ -1,5 +1,6 @@
+import React from 'react';
 import {connect} from 'react-redux';
-import {setTickCount, nextTimer, startTimers, pauseTimers, resetTimers} from './actions.js';
+import {setTickCount, nextTimer, startTimers, pauseTimers, resetTimers} from './state/actions.js';
 
 const timerFinishedAudio = new Audio('../resources/timerFinished.mp3');
 const allTimersFinishedAudio = new Audio('../resources/allTimersFinished.mp3');

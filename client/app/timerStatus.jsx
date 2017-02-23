@@ -1,5 +1,6 @@
+import React from 'react';
 import {connect} from 'react-redux';
-import {timerTicks, startTimers, stopTimers, resetTimers} from './actions.js';
+import {timerTicks, startTimers, stopTimers, resetTimers} from './state/actions.js';
 
 const TimerStatus = ({currentTimer, elapsedTime, duration}) => (
   <div className="timerStatus">

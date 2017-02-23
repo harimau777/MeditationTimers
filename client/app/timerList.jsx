@@ -1,6 +1,7 @@
+import React from 'react';
 import {connect} from 'react-redux';
 import {Timer} from './timer.jsx';
-import {incrementTimer, decrementTimer, addTimer, removeTimer} from './actions.js';
+import {incrementTimer, decrementTimer, addTimer, removeTimer} from './state/actions.js';
 
 const TimerList = ({timers, increment, decrement, addTimer, removeTimer}) => (
   <div className="timerList">
