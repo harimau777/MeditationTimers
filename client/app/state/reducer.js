@@ -1,3 +1,5 @@
+import {setCookie} from './session.js';
+
 function reducer(state = initialState, action) {
   switch(action.type) {
     case 'addTimer':
@@ -24,17 +26,21 @@ function reducer(state = initialState, action) {
 }
 
 function addTimer(state) {
-  return Object.assign({}, state, {timers: [...state.timers, 10]});
+  const newState = Object.assign({}, state, {timers: [...state.timers, 10]});
+  setCookie(newState.timers); //Update the user's cookie;
+  return newState;
 }
 
 function removeTimer(state, index) {
   const timersCopy = [...state.timers.slice(0, index), ...state.timers.slice(index + 1)];
+  setCookie(timersCopy);  //Update the user's cookie;
   return Object.assign({}, state, {timers: timersCopy});
 }
 
 function incrementTimer(state, index) {
   const timersCopy = state.timers.slice(0); //Make a copy of the timers array
   timersCopy[index]++;
+  setCookie(timersCopy);  //Update the user's cookie
   return Object.assign({}, state, {timers: timersCopy});
 }
 
@@ -45,6 +51,7 @@ function decrementTimer(state, index) {
 
   const timersCopy = state.timers.slice(0); //Make a copy of the timers array
   timersCopy[index]--;
+  setCookie(timersCopy);  //Update the user's cookie
   return Object.assign({}, state, {timers: timersCopy});
 }
 
