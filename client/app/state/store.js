@@ -1,4 +1,3 @@
-import {createStore} from 'redux';
 import {reducer} from './reducer.js';
 import {getCookie} from './session.js';
 
@@ -10,6 +9,6 @@ const initialState = {
   intervalID: undefined,  //ID of the running interval, used to cancel the interval
 };
 
-let store = createStore(reducer, initialState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+let store = Redux.createStore(reducer, initialState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 export {store};

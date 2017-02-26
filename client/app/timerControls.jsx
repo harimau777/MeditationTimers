@@ -1,5 +1,3 @@
-import React from 'react';
-import {connect} from 'react-redux';
 import {setTickCount, nextTimer, startTimers, pauseTimers, resetTimers} from './state/actions.js';
 
 const timerFinishedAudio = new Audio('../resources/timerFinished.mp3');
@@ -56,7 +54,7 @@ function handleTick(timers, startTime, intervalID, dispatch) {
   //then handle the timer expiration,
   //else increment the tick count
   const [tickCount, index] = adjustTickCount(timers, Math.round((new Date().getTime() - startTime) / 1000));
-  if (tickCount === timers[index] * 10){
+  if (tickCount === timers[index] * 60){
     //If this is the last timer,
     //then reset the timers,
     //else move to the next timer
@@ -87,10 +85,10 @@ const mapStateToProps = (state) => {
 //timer and the index of the current timer.
 const adjustTickCount = (timers, tickCount) => {  
   const recurse = (tickCount, index) => {
-    if (tickCount <= timers[index] * 10) {
+    if (tickCount <= timers[index] * 60) {
       return [tickCount, index];
     } else {
-      return recurse(tickCount - timers[index] * 10, index + 1);
+      return recurse(tickCount - timers[index] * 60, index + 1);
     }
   }
 
@@ -106,6 +104,6 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const TimerControlsContainer = connect(mapStateToProps, mapDispatchToProps)(TimerControls);
+const TimerControlsContainer = ReactRedux.connect(mapStateToProps, mapDispatchToProps)(TimerControls);
 
 export {TimerControlsContainer};

@@ -1,5 +1,3 @@
-import React from 'react';
-import {connect} from 'react-redux';
 import {Timer} from './timer.jsx';
 import {incrementTimer, decrementTimer, addTimer, removeTimer} from './state/actions.js';
 
@@ -40,6 +38,6 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-const TimerListContainer = connect(mapStateToProps, mapDispatchToProps)(TimerList);
+const TimerListContainer = ReactRedux.connect(mapStateToProps, mapDispatchToProps)(TimerList);
 
 export {TimerListContainer};

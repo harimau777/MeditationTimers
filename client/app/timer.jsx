@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Timer = ({index, duration, increment, decrement, remove}) => (
   <div className="timer">
     <h1>Timer {index + 1}</h1>
