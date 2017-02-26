@@ -45,7 +45,7 @@ function incrementTimer(state, index) {
 }
 
 function decrementTimer(state, index) {
-  if (state.timers[index] === 0) {  //Do not allow the user to decrement the timer below zero minutes
+  if (state.timers[index] === 1) {  //Do not allow the user to decrement the timer below one minute
     return state;
   }
 
