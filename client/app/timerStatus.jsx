@@ -2,16 +2,24 @@ import {timerTicks, startTimers, stopTimers, resetTimers} from './state/actions.
 
 const TimerStatus = ({currentTimer, elapsedTime, duration}) => (
   <div className="timerStatus">
-    <p>Current Timer: {currentTimer} Current Time: {formatTime(elapsedTime)} of {duration} minute{duration !== 1 ? 's' : ''}</p>
+    <p>
+      Current Timer: {currentTimer} Current Time: <FormatTime seconds={elapsedTime} /> of {duration} minute{duration !== 1 ? 's' : ''}
+    </p>
   </div>
 );
 
 //Return a string containing the seconds expressed as 'minutes:remainingSeconds'.
 //A leading '0' is added if the minutes or remainingSeconds are less than 10.
-const formatTime = (seconds) => {
+const FormatTime = ({seconds}) => {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
-  return `${minutes < 10 ? '0' + minutes : minutes}:${remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds}`;
+  return (
+    <span>
+      <span className="time">{(minutes < 10) ? ('0' + minutes) : minutes}</span>
+      :
+      <span className="time">{(remainingSeconds < 10) ? ('0' + remainingSeconds) : remainingSeconds}</span>
+    </span>
+  );
 }
 
 TimerStatus.propTypes = {

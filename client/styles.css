@@ -131,3 +131,7 @@ h1, p {
 .timerStatus {
   text-align: center;
 }
+
+.time {
+  min-width: 2em;
+}
