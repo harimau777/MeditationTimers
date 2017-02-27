@@ -127,6 +127,11 @@ h1, p {
   margin: .5em;
 }
 
+.timerDuration {
+  width: 20%;
+  text-align: center;
+}
+
 /****** Timer Status Styles: ******/
 .timerStatus {
   text-align: center;
