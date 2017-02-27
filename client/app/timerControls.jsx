@@ -5,7 +5,7 @@ const allTimersFinishedAudio = new Audio('../resources/allTimersFinished.mp3');
 
 const TimerControls = ({timers, index, tickCount, intervalID, startTimers, pauseTimers, resetTimers, handleTick}) => (
   <div className="timerControls controls">
-    <span className="button buttonStart" onClick={() => startTimers(timers, intervalID)}>Start Timers</span>
+    <span className="button buttonStart" onClick={() => startTimers(timers, tickCount, intervalID)}>Start Timers</span>
     <span className="button buttonPause" onClick={() => pauseTimers(intervalID)}>Pause Timers</span>
     <span className="button buttonReset" onClick={() => resetTimers(index, tickCount, intervalID)}>Reset Timers</span>
   </div>
@@ -23,13 +23,13 @@ TimerControls.propTypes = {
 };
 
 //***** Refactoring to use a continuously running interval rather than chaining timers *****
-function handleStartTimers(timers, intervalID, dispatch) {
+function handleStartTimers(timers, tickCount, intervalID, dispatch) {
   //If the timer was not already running,
   //then start the timer
   let newIntervalID;
   if(!intervalID) {
     const startTime = new Date().getTime();
-    newIntervalID = window.setInterval(function () {return handleTick(timers, startTime, newIntervalID, dispatch)}, 1000);
+    newIntervalID = window.setInterval(function () {return handleTick(timers, tickCount, startTime, newIntervalID, dispatch)}, 1000);
     return dispatch(startTimers(newIntervalID));
   }
 }
@@ -48,12 +48,20 @@ function handleResetTimers(index, tickCount, intervalID, dispatch) {
   }
 }
 
-// function handleTick() {
-function handleTick(timers, startTime, intervalID, dispatch) {
+//handleTick is called each time the interval expires.
+//It handles dispatching actions to update the store's tickCount and index.
+//It also detects and handles the behavior when the end of a timer has been reached
+//and when the end of all timers have been reached.
+//
+//Since handleTick is called by the interval it keeps track of the number of elapsed ticks separately
+//from the store's tickCount.  It does this by comparing the current time to the startTime of the timer.
+//Since the startTime gets updated whenever the timer is paused and then started again, it uses a tickOffset
+//to keep track of how much time had elapsed at the point when the timer was last paused.
+function handleTick(timers, tickOffset, startTime, intervalID, dispatch) {
   //If this is the last tick,
   //then handle the timer expiration,
   //else increment the tick count
-  const [tickCount, index] = adjustTickCount(timers, Math.round((new Date().getTime() - startTime) / 1000));
+  const [tickCount, index] = adjustTickCount(timers, Math.round((new Date().getTime() - startTime) / 1000) + tickOffset);
   if (tickCount === timers[index] * 60){
     //If this is the last timer,
     //then reset the timers,
@@ -67,15 +75,6 @@ function handleTick(timers, startTime, intervalID, dispatch) {
     }
   } else {
     return dispatch(setTickCount(tickCount));
-  }
-}
-
-const mapStateToProps = (state) => {
-  return {
-    timers: state.timers,
-    index: state.index,
-    tickCount: state.tickCount,
-    intervalID: state.intervalID
   }
 }
 
@@ -95,12 +94,21 @@ const adjustTickCount = (timers, tickCount) => {
   return recurse(tickCount, 0)
 }
 
+const mapStateToProps = (state) => {
+  return {
+    timers: state.timers,
+    index: state.index,
+    tickCount: state.tickCount,
+    intervalID: state.intervalID
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
-    startTimers: (timers, intervalID) => handleStartTimers(timers, intervalID, dispatch),
+    startTimers: (timers, tickCount, intervalID) => handleStartTimers(timers, tickCount, intervalID, dispatch),
     pauseTimers: (intervalID) => handlePauseTimers(intervalID, dispatch),
     resetTimers: (index, tickCount, intervalID) => handleResetTimers(index, tickCount, intervalID, dispatch),
-    handleTick: (timers, startTime, intervalID) => handleTick(timers, startTime, intervalID, dispatch)
+    handleTick: (timers, tickOffset, startTime, intervalID) => handleTick(timers, tickOffset, startTime, intervalID, dispatch)
   }
 }
 
